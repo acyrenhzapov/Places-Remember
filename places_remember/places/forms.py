@@ -18,4 +18,4 @@ class PlaceCreationForm(ModelForm):
     class Meta:
         model = Place
         fields = ('title', 'description', 'location')
-        # widgets = {'location': LeafletWidget()}
+        widgets = {'location': LeafletWidget()}
