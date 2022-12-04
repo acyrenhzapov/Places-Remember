@@ -1,13 +1,12 @@
 from django.forms import ModelForm
-from leaflet.forms.widgets import LeafletWidget
 from leaflet.forms.fields import PointField
+from leaflet.forms.widgets import LeafletWidget
+
 from places.models import Place
 
-# from django.contrib.gis import forms
 LEAFLET_WIDGET_ATTRS = {
-    'map_height': '600px',
-    'map_width': '50%',
-    'display_raw': 'true',
+    'map_height': '200%',
+    'map_width': '200%',
     'map_srid': 4326,
 }
 

@@ -4,7 +4,7 @@
     {% load static %}
     <title>Markers Map</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="{% static 'map.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'place.css' %}">
     <link rel="stylesheet" type="text/css" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css">
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
 </head>
@@ -14,7 +14,7 @@
         {{place.description}}
     </div>
     <div id="map"></div>
-
+    <a href="{% url 'home' %}"> Home </a>
     <script>
         const long = "{{place.location.x}}";
         const alti = "{{place.location.y}}";
