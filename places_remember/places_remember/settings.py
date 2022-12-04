@@ -116,14 +116,30 @@ SOCIAL_AUTH_VK_OAUTH2_KEY = os.environ.get("SOCIAL_AUTH_VK_OAUTH2_KEY", "5149430
 
 SOCIAL_AUTH_VK_OAUTH2_SECRET = os.environ.get("SOCIAL_AUTH_VK_OAUTH2_SECRET", "3jYfyIneFdNdNS0qWRVX")
 
-SOCIAL_AUTH_VK_OAUTH2_SCOPE = ['photos', 'pages']
+SOCIAL_AUTH_VK_OAUTH2_SCOPE = ['photos',
+                               'pages']
+
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/home/'
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_WHITELISTED_DOMAINS = ["gmail.com"]
 
 SOCIAL_AUTH_JSONFIELD_ENABLED = True
 
 SOCIAL_AUTH_URL_NAMESPACE = 'social'
 
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.environ.get("SOCIAL_AUTH_GOOGLE_OAUTH2_KEY",
+                                               "374510023896-0bhehh04pi0br2r5frs1317nvf8lfbbt.apps.googleusercontent.com")
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.environ.get("SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET",
+                                                  "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")
+
+SOCIAL_AUTH_GOOGLE_OAUTH_SCOPE = ['profile',
+                                  'email', ]
+
 AUTHENTICATION_BACKENDS = [
     'social_core.backends.vk.VKOAuth2',
+    'social_core.backends.google.GoogleOAuth2',
+    'social_core.backends.google.GoogleOAuth',
     'django.contrib.auth.backends.ModelBackend',
 ]
 
@@ -137,7 +153,7 @@ SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.social_auth.associate_user',
     'social_core.pipeline.social_auth.load_extra_data',
     'social_core.pipeline.user.user_details',
-    'users.pipeline.get_avatar'
+    'users.pipeline.get_avatar',
 )
 
 SOCIAL_AUTH_DISCONNECT_PIPELINE = (
@@ -185,8 +201,6 @@ LOGIN_REDIRECT_URL = '/home'
 LOGOUT_REDIRECT_URL = '/home'
 
 STATIC_URL = '/static/'
-
-SOCIAL_AUTH_POSTGRES_JSONFIELD = True
 
 AUTH_USER_MODEL = 'users.CustomUser'
 

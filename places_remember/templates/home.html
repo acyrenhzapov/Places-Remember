@@ -17,7 +17,8 @@
     {% else %}
         <h2>Welcome to Place Remember</h2>
         <p>Login or Create your account</p>
-        <a href="{% url 'social:begin' 'vk-oauth2' %}">VK+</a>
+        <a href="{% url 'social:begin' 'vk-oauth2' %}">Login with VK</a>
+        <a href="{% url 'social:begin' 'google-oauth2' %}">Login with Google+++++</a>
     {% endif %}
 </div>
 {% endblock %}
