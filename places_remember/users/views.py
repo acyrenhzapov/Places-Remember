@@ -24,7 +24,8 @@ class CustomUserLoginView(LoginView):
 
 class LogoutView(View):
 
-    def get(self, request):
+    @staticmethod
+    def get(request):
         logout(request)
         return HttpResponseRedirect(settings.LOGIN_URL)
 
