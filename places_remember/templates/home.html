@@ -3,23 +3,22 @@
 {% block content %}
 <div>
     {% if user.is_authenticated %}
-        Hi {{ user.username }}!<br>
-        {% if user.place_set.all %}
-            {% for place in user.place_set.all %}
-              <li>
-                <a href="{% url 'places:place-detail' place.pk %}">{{ place.title }}</a>
-              </li>
-            {% endfor %}
-        {% else %}
-            <div>У вас нет ни одного воспоминания</div>
-        {% endif %}
-        <p><a href="{% url 'logout' %}">Logout</a></p>
-        <p><a href="{% url 'places:create' %}">Добавить воспоминание</a></p>
+    Hi {{ user.username }}!<br>
+    {% if user.place_set.all %}
+    {% for place in user.place_set.all %}
+    <li>
+        <a href="{% url 'places:place-detail' place.pk %}">{{ place.title }}</a>
+    </li>
+    {% endfor %}
     {% else %}
-        <h2>Welcome to Place Remember</h2>
-        <p>Login or Create your account</p>
-        <a href="{% url 'login' %}" class="btn btn-primary">Login</a>
-        <a href="{% url 'signup' %}" class="btn btn-primary">SignUp</a>
+    <div>У вас нет ни одного воспоминания</div>
+    {% endif %}
+    <a href="{% url 'users:logout' %}"> Logout </a>
+    <p><a href="{% url 'places:create' %}">Добавить воспоминание</a></p>
+    {% else %}
+    <h2>Welcome to Place Remember</h2>
+    <p>Login or Create your account</p>
+    <a href="{% url 'social:begin' 'vk-oauth2' %}">VK+</a>
     {% endif %}
 </div>
 {% endblock %}

@@ -8,6 +8,5 @@ class HomeView(DetailView):
     model = CustomUser
 
     def get_object(self):
+        """Return CustomUser instance to check is user authorized or not"""
         return self.request.user
-
-

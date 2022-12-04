@@ -6,7 +6,9 @@ from django.views.generic import RedirectView
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('home/', HomeView.as_view(), name='home'),
-    path('users/', include('users.urls')),
+    path('social-auth/', include('social_django.urls', namespace="social")),
+    path('users/', include('users.urls'), name='users'),
+    # path('logout/', LogoutView.as_view(next_page='home'), name='logout'),
     path('places/', include('places.urls'), name='places'),
     path('', RedirectView.as_view(url='/home')),
 

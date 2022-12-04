@@ -13,6 +13,7 @@ import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Quick-start development settings - unsuitable for production
@@ -38,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.gis',
     'users.apps.UsersConfig',
     'places.apps.PlacesConfig',
-    'leaflet'
+    'leaflet',
+    'social_django',
 ]
 
 MIDDLEWARE = [
@@ -73,12 +75,6 @@ LOCATION_FIELD = {
     'map.zoom': 15,
     'search.provider': 'google',
     'search.suffix': '',
-    # # Google
-    # 'provider.google.api’: '//maps.google.com/maps/api/js?sensor=false’,
-    # 'provider.google.api_key’: '<INSERT GOOGLE API KEY>’,
-    # 'provider.google.api_libraries’: '’,
-    # 'provider.google.map.type’: 'ROADMAP’,
-    # OpenStreetMap
     'provider.openstreetmap.max_zoom': 16,
 }
 
@@ -93,6 +89,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -113,6 +111,40 @@ DATABASES = {
         "PORT": os.environ.get("SQL_PORT", "5432"),
     }
 }
+
+SOCIAL_AUTH_VK_OAUTH2_KEY = os.environ.get("SOCIAL_AUTH_VK_OAUTH2_KEY", "51494303")
+
+SOCIAL_AUTH_VK_OAUTH2_SECRET = os.environ.get("SOCIAL_AUTH_VK_OAUTH2_SECRET", "3jYfyIneFdNdNS0qWRVX")
+
+SOCIAL_AUTH_VK_OAUTH2_SCOPE = ['photos', 'pages']
+
+SOCIAL_AUTH_JSONFIELD_ENABLED = True
+
+SOCIAL_AUTH_URL_NAMESPACE = 'social'
+
+AUTHENTICATION_BACKENDS = [
+    'social_core.backends.vk.VKOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+]
+
+SOCIAL_AUTH_PIPELINE = (
+    'social_core.pipeline.social_auth.social_details',
+    'social_core.pipeline.social_auth.social_uid',
+    'social_core.pipeline.social_auth.social_user',
+    'social_core.pipeline.user.get_username',
+    'social_core.pipeline.social_auth.associate_by_email',
+    'social_core.pipeline.user.create_user',
+    'social_core.pipeline.social_auth.associate_user',
+    'social_core.pipeline.social_auth.load_extra_data',
+    'social_core.pipeline.user.user_details',
+)
+
+SOCIAL_AUTH_DISCONNECT_PIPELINE = (
+    'social_core.pipeline.disconnect.allowed_to_disconnect',
+    'social_core.pipeline.disconnect.get_entries',
+    'social_core.pipeline.disconnect.revoke_tokens',
+    'social_core.pipeline.disconnect.disconnect',
+)
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -145,18 +177,20 @@ USE_I18N = True
 
 USE_TZ = True
 
-LOGIN_URL = 'users/login'
-
-LOGOUT_REDIRECT_URL = 'home'
+LOGIN_URL = '/home'
 
 LOGIN_REDIRECT_URL = '/home'
+
+LOGOUT_REDIRECT_URL = '/home'
+
+STATIC_URL = '/static/'
+
+SOCIAL_AUTH_POSTGRES_JSONFIELD = True
 
 AUTH_USER_MODEL = 'users.CustomUser'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
-
-STATIC_URL = '/static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
