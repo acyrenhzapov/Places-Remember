@@ -1,7 +1,7 @@
-from django.shortcuts import redirect
+from users.models import CustomUser
 
 
-def get_avatar(backend, response, user=None, *args, **kwargs):
+def get_avatar(backend, response, user: CustomUser = None, *args, **kwargs):
     def save_avatar(response_name: str):
         url = response.get(response_name, '')
         if url:
@@ -14,6 +14,6 @@ def get_avatar(backend, response, user=None, *args, **kwargs):
         save_avatar('picture')
 
 
-def auth_allowed(backend, details, response, *args, **kwargs):
-    if not backend.auth_allowed(response, details):
-        return redirect('user:error')
+def get_backend_name(backend, response, user: CustomUser = None, *args, **kwargs):
+    user.backend_name = backend.name
+    user.save()

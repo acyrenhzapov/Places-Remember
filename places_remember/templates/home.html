@@ -3,22 +3,26 @@
 {% block content %}
 <div>
     {% if user.is_authenticated %}
-        {% if user.place_set.all %}
-            {% for place in user.place_set.all %}
-                <li>
-                    <a href="{% url 'places:place-detail' place.pk %}">{{ place.title }}</a>
-                </li>
-            {% endfor %}
-        {% else %}
-            <div class="center" style="text-align: center">У вас нет ни одного воспоминания</div>
-        {% endif %}
-        <p><a href="{% url 'places:create' %}">Добавить воспоминание</a></p>
-        <a href="{% url 'users:logout' %}"> Logout </a>
+    {% for impression in user.impression_set.all %}
+    <li>
+        <a href="{% url 'impressions:impression-detail' impression.pk %}">{{ impression.title }}</a>
+    </li>
+    {% empty %}
+    <div class="center" style="text-align: center">У вас нет ни одного воспоминания</div>
+    {% endfor %}
+    <p><a href="{% url 'impressions:create' %}">Добавить воспоминание</a></p>
+    <a href="{% url 'users:logout' %}"> Выйти </a> <br>  <br>
+    <form action="{% url 'social:disconnect' user.backend_name %}" method="post">
+        {% csrf_token %}
+        <button class="btn btn-warning btn-xs">
+            Выйти и забыть аккаунт
+        </button>
+    </form>
     {% else %}
-        <h2>Welcome to Place Remember</h2>
-        <p>Login or Create your account</p>
-        <a href="{% url 'social:begin' 'vk-oauth2' %}">Login with VK</a>
-        <a href="{% url 'social:begin' 'google-oauth2' %}">Login with Google+++++</a>
+    <h2>Welcome to Place Remember</h2>
+    <p>Login or Create your account</p>
+    <a href="{% url 'social:begin' 'vk-oauth2' %}">Войти с помощью VK</a>
+    <a href="{% url 'social:begin' 'google-oauth2' %}">Войти с помощью Google</a>
     {% endif %}
 </div>
 {% endblock %}

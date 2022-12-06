@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.gis',
     'users.apps.UsersConfig',
-    'places.apps.PlacesConfig',
+    'impressions.apps.ImpressionsConfig',
     'leaflet',
     'social_django',
 ]
@@ -57,7 +57,8 @@ ROOT_URLCONF = 'places_remember.urls'
 
 LEAFLET_CONFIG = {
     'SRID': 3857,
-    'DEFAULT_CENTER': (-3.87, 178.59),
+    'DEFAULT_CENTER': (56.01416977236943,
+                       92.85782247644305),
     'DEFAULT_ZOOM': 14,
     'MIN_ZOOM': 3,
     'MAX_ZOOM': 20,
@@ -121,9 +122,13 @@ SOCIAL_AUTH_VK_OAUTH2_SCOPE = ['photos',
 
 SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/home/'
 
+# SOCIAL_AUTH_DISCONNECT_REDIRECT_URL = '/users/logout/'
+
 SOCIAL_AUTH_GOOGLE_OAUTH2_WHITELISTED_DOMAINS = ["gmail.com"]
 
 SOCIAL_AUTH_JSONFIELD_ENABLED = True
+
+SOCIAL_AUTH_REVOKE_TOKENS_ON_DISCONNECT = True
 
 SOCIAL_AUTH_URL_NAMESPACE = 'social'
 
@@ -154,10 +159,10 @@ SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.social_auth.load_extra_data',
     'social_core.pipeline.user.user_details',
     'users.pipeline.get_avatar',
+    'users.pipeline.get_backend_name',
 )
 
 SOCIAL_AUTH_DISCONNECT_PIPELINE = (
-    'social_core.pipeline.disconnect.allowed_to_disconnect',
     'social_core.pipeline.disconnect.get_entries',
     'social_core.pipeline.disconnect.revoke_tokens',
     'social_core.pipeline.disconnect.disconnect',
@@ -189,8 +194,6 @@ LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 
 USE_I18N = True
-
-# GEOPOSITION_GOOGLE_MAPS_API_KEY = 'AIzaSyDSKnvXgaHAfaov2WuDeqJpfaz0EdzO-pM'
 
 USE_TZ = True
 

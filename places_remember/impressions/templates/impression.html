@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <title>Markers Map</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'impression.css' %}">
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css">
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+</head>
+<body>
+<div>{{impression.title}}</div>
+<div>
+    <p style="word-wrap: break-word ">
+        {{impression.description}}
+    </p>
+</div>
+<div id="map"></div>
+<a href="{% url 'home' %}"> Home </a>
+<script>
+    const long = "{{impression.location.x}}";
+    const alti = "{{impression.location.y}}";
+    const attribution = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
+    const map = L.map("map");
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution: attribution,
+    }).addTo(map);
+    L.marker([alti, long]).addTo(map);
+    map.fitWorld();
+</script>
+</body>
+</html>

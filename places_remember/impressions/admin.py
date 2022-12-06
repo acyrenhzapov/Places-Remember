@@ -2,10 +2,10 @@ from django.contrib.gis import admin
 from leaflet.admin import LeafletGeoAdmin
 
 # Register your models here.
-from .models import Place
+from .models import Impression
 
 # admin.site.register(
-#     Place,
+#     Impression,
 #     LeafletGeoAdmin,
 #     settings_overrides={
 #         'DEFAULT_CENTER': (59.334591, 18.063240),
@@ -14,7 +14,7 @@ from .models import Place
 #     }
 # )
 
-@admin.register(Place)
+@admin.register(Impression)
 class MarkerAdmin(LeafletGeoAdmin):
     """Marker admin."""
 
