@@ -11,4 +11,4 @@ def long_lat_validator(point: Point):
     if not (180 >= point.x >= -180):  # Longitude
         raise ValidationError(f'Longitude value should be in set of [-180; 180], but given {point.x}')
     if not (90 >= point.y >= -90):  # Latitude
-        raise ValidationError(f'Latitude value should be in set of [-180; 180], but given {point.y}')
+        raise ValidationError(f'Latitude value should be in set of [-90; 90], but given {point.y}')
