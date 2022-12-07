@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>{% block title %}Django Custom User Model{% endblock %}</title>
+    <script src="{% static 'leaflet.ajax.js' %}" charset="utf-8"></script>
+</head>
+<body>
+<main>
+    <header>
+        {% if user.is_authenticated %}
+        <div>
+            <h2>Привет {{ user.last_name }} {{ user.first_name }}!</h2>
+            <img src="{{user.avatar}}">
+        </div>
+        {% endif %}
+    </header>
+    {% block content %}
+    {% endblock %}
+</main>
+</body>
+</html>
