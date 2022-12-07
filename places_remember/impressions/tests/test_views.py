@@ -1,11 +1,7 @@
-from django.contrib.gis.geos import Point
 from django.test import TestCase, Client
 
-from impressions.models import Impression
 from users.models import CustomUser
-
-
-# Create your tests here.
+from .base_functionality import create_impression
 
 
 class ImpressionDetailViewTestCase(TestCase):
@@ -32,10 +28,10 @@ class ImpressionDetailViewTestCase(TestCase):
 
     def test_new_impression(self):
         """Check view return same impressions as user have"""
-        place = self.create_impression("30's dormitory", "Okay", self.user, x=156.13123212, y=12.234234)
+        place = create_impression("30's dormitory", "Okay", self.user, x=156.13123212, y=12.234234)
         response = self.client.get('/home/')
         self.assertQuerysetEqual(
-            response.context['user'].place_set.all(),
+            response.context['user'].impression_set.all(),
             [place],
         )
 
@@ -43,30 +39,8 @@ class ImpressionDetailViewTestCase(TestCase):
         """
         Check user can't get impression of another user
         """
-        self.create_impression("30's dormitory", "Okay", self.user, x=156.13123212, y=12.234234)
+        create_impression("30's dormitory", "Okay", self.user, x=156.13123212, y=12.234234)
         self.client.logout()
         self.client.login(username='another_user', password='another_user_password')
-        response = self.client.get('/place/1/')
+        response = self.client.get('/impressions/1/')
         self.assertEqual(response.status_code, 404)
-
-    def test_model_validation(self):
-        pass
-        # self.assertRaises(ValidationError, self.create_place, "30's dormitory", "Okay", self.user, x=180.1, y=12)
-        # self.assertRaises(ValidationError, self.create_place, "30's dormitory", "Okay", self.user, x=156, y=90.1)
-        # self.assertRaises(IntegrityError, self.create_place, None, "Okay", self.user, x=156, y=45)
-        # self.assertRaises(IntegrityError, self.create_place, "30's dormitory", None, self.user, x=156, y=45)
-        # self.assertRaises(IntegrityError, self.create_place, "30's dormitory", "Okay", None, x=156, y=45)
-
-    @staticmethod
-    def create_impression(title: str,
-                          description: str,
-                          user: CustomUser,
-                          x: float,
-                          y: float, ) -> Impression:
-        impression = Impression.objects.create(title=title,
-                                               description=description,
-                                               user=user,
-                                               location=Point(x=x,
-                                                              y=y))
-        impression.full_clean()
-        return impression

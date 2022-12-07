@@ -35,4 +35,4 @@ class Impression(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse("impressions:impression_detail", args=[self.pk])
+        return reverse("impressions:impression-detail", args=[self.pk])

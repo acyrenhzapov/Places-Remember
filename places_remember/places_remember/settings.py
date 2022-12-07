@@ -118,11 +118,12 @@ SOCIAL_AUTH_VK_OAUTH2_KEY = os.environ.get("SOCIAL_AUTH_VK_OAUTH2_KEY", "5149430
 SOCIAL_AUTH_VK_OAUTH2_SECRET = os.environ.get("SOCIAL_AUTH_VK_OAUTH2_SECRET", "3jYfyIneFdNdNS0qWRVX")
 
 SOCIAL_AUTH_VK_OAUTH2_SCOPE = ['photos',
+                               'email',
                                'pages']
 
 SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/home/'
 
-# SOCIAL_AUTH_DISCONNECT_REDIRECT_URL = '/users/logout/'
+SOCIAL_AUTH_DISCONNECT_REDIRECT_URL = '/users/logout/'
 
 SOCIAL_AUTH_GOOGLE_OAUTH2_WHITELISTED_DOMAINS = ["gmail.com"]
 
@@ -160,6 +161,7 @@ SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.user.user_details',
     'users.pipeline.get_avatar',
     'users.pipeline.get_backend_name',
+    'users.pipeline.email_required',
 )
 
 SOCIAL_AUTH_DISCONNECT_PIPELINE = (

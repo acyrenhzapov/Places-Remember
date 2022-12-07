@@ -12,4 +12,4 @@ class CustomUser(AbstractUser):
     social_backend: name of backend via user auth
     """
     avatar = TextField(default='')
-    backend_name = TextField(default='')
+    backend_name = TextField(default='google-oauth2')
