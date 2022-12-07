@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.gis',
+    'crispy_forms',
     'users.apps.UsersConfig',
     'impressions.apps.ImpressionsConfig',
     'leaflet',
@@ -57,26 +58,17 @@ ROOT_URLCONF = 'places_remember.urls'
 
 LEAFLET_CONFIG = {
     'SRID': 3857,
-    'DEFAULT_CENTER': (56.01416977236943,
-                       92.85782247644305),
+    'DEFAULT_CENTER': (os.environ.get("DEFAULT_POINT_LONGITUDE"),
+                       os.environ.get("DEFAULT_POINT_LATITUDE")),
     'DEFAULT_ZOOM': 14,
     'MIN_ZOOM': 3,
     'MAX_ZOOM': 20,
     'RESET_VIEW': False,
-    'TILES': [('', '//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', '')],
     'PLUGINS': {
         'forms': {
             'auto-include': True
         }
     }
-}
-
-LOCATION_FIELD = {
-    'map.provider': 'openstreetmap',
-    'map.zoom': 15,
-    'search.provider': 'google',
-    'search.suffix': '',
-    'provider.openstreetmap.max_zoom': 16,
 }
 
 TEMPLATES = [
@@ -113,9 +105,11 @@ DATABASES = {
     }
 }
 
-SOCIAL_AUTH_VK_OAUTH2_KEY = os.environ.get("SOCIAL_AUTH_VK_OAUTH2_KEY", "51494303")
+CRISPY_TEMPLATE_PACK = 'bootstrap'
 
-SOCIAL_AUTH_VK_OAUTH2_SECRET = os.environ.get("SOCIAL_AUTH_VK_OAUTH2_SECRET", "3jYfyIneFdNdNS0qWRVX")
+SOCIAL_AUTH_VK_OAUTH2_KEY = os.environ.get("SOCIAL_AUTH_VK_OAUTH2_KEY")
+
+SOCIAL_AUTH_VK_OAUTH2_SECRET = os.environ.get("SOCIAL_AUTH_VK_OAUTH2_SECRET")
 
 SOCIAL_AUTH_VK_OAUTH2_SCOPE = ['photos',
                                'email',
@@ -133,11 +127,8 @@ SOCIAL_AUTH_REVOKE_TOKENS_ON_DISCONNECT = True
 
 SOCIAL_AUTH_URL_NAMESPACE = 'social'
 
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.environ.get("SOCIAL_AUTH_GOOGLE_OAUTH2_KEY",
-                                               "374510023896-0bhehh04pi0br2r5frs1317nvf8lfbbt.apps.googleusercontent.com")
-
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.environ.get("SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET",
-                                                  "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")
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.environ.get("SOCIAL_AUTH_GOOGLE_OAUTH2_KEY")
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.environ.get("SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET")
 
 SOCIAL_AUTH_GOOGLE_OAUTH_SCOPE = ['profile',
                                   'email', ]
@@ -199,11 +190,13 @@ USE_I18N = True
 
 USE_TZ = True
 
-LOGIN_URL = '/home'
+DEFAULT_URL = '/home'
 
-LOGIN_REDIRECT_URL = '/home'
+LOGIN_URL = DEFAULT_URL
 
-LOGOUT_REDIRECT_URL = '/home'
+LOGIN_REDIRECT_URL = DEFAULT_URL
+
+LOGOUT_REDIRECT_URL = DEFAULT_URL
 
 STATIC_URL = '/static/'
 

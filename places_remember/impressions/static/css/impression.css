@@ -1,0 +1,17 @@
+html,
+#body {
+    height: 50%;
+    margin: 0;
+    background: red;
+}
+#info {
+    background: green;
+}
+#map {
+    width:  600px;
+    height: 400px;
+}
+.leaflet-container {
+    width:  600px;
+    height: 400px;
+}

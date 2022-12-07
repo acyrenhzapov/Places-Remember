@@ -1,7 +1,8 @@
 from django.contrib import admin
-from django.urls import path, include
-from places_remember.views import HomeView
+from django.urls import include, path
 from django.views.generic import RedirectView
+
+from places_remember.views import HomeView
 
 urlpatterns = [
     path('admin/', admin.site.urls),

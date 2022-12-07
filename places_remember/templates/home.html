@@ -3,7 +3,7 @@
 {% block content %}
 <div>
     {% if user.is_authenticated %}
-    {% for impression in user.impression_set.all %}
+    {% for impression in user.impressions.all %}
     <li>
         <a href="{% url 'impressions:impression-detail' impression.pk %}">{{ impression.title }}</a>
     </li>
