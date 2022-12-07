@@ -1,32 +1,52 @@
+{# template to visualize impression #}
+{% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    {% load static %}
-    <title>Markers Map</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="{% static 'impression.css' %}">
-    <link rel="stylesheet" type="text/css" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css">
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <meta charset="utf-8">
+    <title>{{ impression.title }}</title>
+    {% load leaflet_tags %}
+    {% leaflet_js %}
+    {% leaflet_css %}
 </head>
 <body>
-<div>{{impression.title}}</div>
-<div>
-    <p style="word-wrap: break-word ">
-        {{impression.description}}
-    </p>
-</div>
-<div id="map"></div>
-<a href="{% url 'home' %}"> Home </a>
-<script>
-    const long = "{{impression.location.x}}";
-    const alti = "{{impression.location.y}}";
-    const attribution = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
-    const map = L.map("map");
-    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        attribution: attribution,
-    }).addTo(map);
-    L.marker([alti, long]).addTo(map);
-    map.fitWorld();
-</script>
+<main>
+    <header>
+        {% if user.is_authenticated %}
+        <div>
+            <h2>Привет {{ user.last_name }} {{ user.first_name }}!</h2>
+            <img src="{{ user.avatar }}">
+        </div>
+        {% endif %}
+    </header>
+    <div>
+        Название: {{impression.title}}
+        <p style="word-wrap: break-word ">
+            Описание: <br>
+            {% autoescape on %}
+            {{impression.description | linebreaksbr}}
+            {% endautoescape %}
+        </p>
+    </div>
+    <div>
+        <script>
+            // Add point on map
+            function map_init_basic(map, options) {
+                const long = "{{impression.location.x}}";
+                const alti = "{{impression.location.y}}";
+                L.marker([alti, long]).addTo(map);
+                console.log(alti)
+            }
+        </script>
+        <style>
+            .leaflet-container {
+                width: 50%;
+                height: 50%;
+            }
+        </style>
+        {% leaflet_map "map" callback="window.map_init_basic" %}
+    </div>
+    <a href="{% url 'home' %}"> Home </a>
+</main>
 </body>
 </html>

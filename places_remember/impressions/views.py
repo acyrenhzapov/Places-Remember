@@ -1,9 +1,8 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import Http404
+from django.http import Http404, HttpResponseRedirect
 from django.urls import reverse_lazy
-from django.views.generic import DetailView, TemplateView
+from django.views.generic import DetailView
 from django.views.generic.edit import CreateView
-
 from impressions.forms import ImpressionCreationForm
 from impressions.models import Impression
 
@@ -15,8 +14,11 @@ class ImpressionDetailView(DetailView):
     template_name = 'impression.html'
     model = Impression
 
-    def get_object(self, queryset=None):
-        """Check that this impressions was created by current user"""
+    def get_object(self, queryset=None) -> Impression:
+        """Check that this impression was created by current user
+        Returns:
+            Impression class or raise Http404(Exception)
+        """
         obj = super().get_object()
         if not obj.user == self.request.user:
             raise Http404
@@ -31,11 +33,13 @@ class ImpressionCreateView(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy('home')
     template_name = 'create_impression.html'
 
-    def form_valid(self, form):
+    def form_valid(self, form) -> HttpResponseRedirect:
         """
         Link impression with user
-        :param form: form with full information but user
-        :return: form with full information about place
+        Args:
+            form: form with full information but user
+        Returns:
+            form with full information about place
         """
         form.instance.user = self.request.user
         return super().form_valid(form)
